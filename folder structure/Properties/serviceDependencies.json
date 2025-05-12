@@ -1,0 +1,67 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:DefaultConnection"
+    }
+  }
+}
+
+/*
+
+## 🔹 1. `serviceDependencies.json` (or `azure.resource`, `azure.yaml`, etc.)
+
+### ✅ Purpose:
+
+Declares **external services** the app depends on, usually for **Azure Dev CLI**, **GitHub Actions**, or **Visual Studio tooling** to provision and bind those services.
+
+### 📦 Common contents:
+
+* Dependencies like SQL databases, Redis, Storage accounts
+* Azure resource types
+* Mapping to `ConnectionStrings` keys
+
+### 📁 Example:
+
+```json
+{
+  "dependencies": {
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:DefaultConnection"
+    },
+    "storage1": {
+      "type": "storage",
+      "connectionId": "Storage:Main"
+    }
+  }
+}
+```
+
+### 🧠 Usage:
+
+* Used **before** the app runs (e.g., during deployment)
+* Helps tools **inject connection strings** or provision resources
+* Not used directly by your app at runtime unless you load it manually
+
+---
+
+## 🔄 Summary of Differences
+
+| Feature                   | `appsettings.json`         | `serviceDependencies.json`             |
+| ------------------------- | -------------------------- | -------------------------------------- |
+| Used by app at runtime?   | ✅ Yes                      | ❌ No (used by deployment/tooling only) |
+| Purpose                   | App configuration          | Declare external resource dependencies |
+| Managed by developer?     | ✅ Manually edited          | Often generated or managed by tools    |
+| Used by Azure Dev CLI?    | ✅ Yes (for runtime values) | ✅ Yes (for provisioning + binding)     |
+| Holds connection strings? | ✅ Yes (values)             | ✅ Yes (reference to where they go)     |
+
+---
+
+### ✅ Final Analogy:
+
+Think of `appsettings.json` as your **app’s settings panel**, and `serviceDependencies.json` as your **shopping list** for cloud services you want Azure to buy and hook up for you.
+
+Would you like an example project that uses both files together with Azure deployment?
+
+*/

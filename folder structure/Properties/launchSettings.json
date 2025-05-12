@@ -1,0 +1,108 @@
+﻿{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:64318",
+      "sslPort": 44303
+    }
+  },
+  /**
+  The `"profiles"` section you're seeing is from the `launchSettings.json` file in an ASP.NET Core project. 
+  It defines how your app is launched during development in different **environments or hosting modes**.
+  Here's a breakdown of the **differences between the profiles** listed:
+*/
+  "profiles": {
+    /*
+    ### 🔹 1. `"http"` Profile
+
+    ```json
+    "profile": {
+      "commandName": "Project",
+      "applicationUrl": "http://localhost:5256",
+    }
+    ```
+
+    * **Type**: Runs the app using the built-in Kestrel web server with **HTTP only**.
+    * **Use Case**: Useful for quick testing on local HTTP.
+    * **Key Point**: Doesn't use HTTPS, so **not secure** for anything sensitive.
+
+    ---
+    */
+    "http": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:5256",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    /*
+          ### 🔹 2. `"https"` Profile
+
+      ```json
+      "profile": {
+        "commandName": "Project",
+        "applicationUrl": "https://localhost:7200;http://localhost:5256",
+      }
+      ```
+
+      * **Type**: Runs the app using Kestrel with both **HTTP and HTTPS**.
+      * **Use Case**: Standard for development, as it mimics production more closely (which usually uses HTTPS).
+      * **Key Point**: Preferred for local development with security features.
+
+      ---
+    */
+    "https": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:7200;http://localhost:5256",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    /*
+    
+    ### 🔹 3. `"IIS Express"` Profile
+
+    ```json
+    "profile": {
+      "commandName": "IISExpress",
+    }
+    ```
+
+    * **Type**: Runs the app using **IIS Express**, the lightweight dev web server built into Visual Studio.
+    * **Use Case**: Useful for testing apps in an environment closer to **full IIS**, often needed for **Windows Authentication**.
+    * **Key Point**: Allows using Windows Authentication out of the box.
+
+    ---
+    */
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
+/*
+  ### ✅ Summary Table
+
+| Profile Name  | Web Server  | HTTPS Support | Auth Compatibility                  | Launch Style        |
+| ------------- | ----------- | ------------- | ----------------------------------- | ------------------- |
+| `http`        | Kestrel     | ❌             | Limited (no secure features)        | HTTP only           |
+| `https`       | Kestrel     | ✅             | Good for dev with Identity, cookies | HTTP + HTTPS        |
+| `IIS Express` | IIS Express | ✅             | Supports Windows Auth well          | Like production IIS |
+
+---
+
+### 🔐 Authentication Impact
+
+* **Windows Authentication**: Only supported natively in **IIS Express** or full IIS.
+* **Microsoft Identity (Azure AD)** and **Individual Accounts**: 
+  Work fine in any profile with HTTPS enabled (`https` or `IIS Express`), but HTTPS is preferred for secure tokens and cookies.
+*/
