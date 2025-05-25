@@ -14,7 +14,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 // Register ApplicationDbContext with the dependency injection container using SQL Server
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    
+options.UseSqlServer(connectionString));
 
 // Add support for developer-friendly database error pages
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -48,7 +49,7 @@ app.UseMiddleware<HelloWorldMiddleware>();
 app.UseHttpsRedirection();
 
 // Serve static files (e.g., CSS, JS, images) from wwwroot
-app.UseStaticFiles();
+ app.UseStaticFiles();
 
 // Enable routing for controllers and Razor pages
 app.UseRouting();

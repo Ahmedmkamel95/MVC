@@ -1,27 +1,31 @@
-﻿using folder_structure.Data;
-using folder_structure.Models;
-using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using folder_structure.Data;
+using folder_structure.Models;
 
 namespace folder_structure.Controllers
 {
-    public class ProductsController : Controller
+    public class EmployeesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ProductsController(ApplicationDbContext context)
+        public EmployeesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Products
+        // GET: Employees
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Product.ToListAsync());
+            return View(await _context.Employees.ToListAsync());
         }
 
-        // GET: Products/Details/5
+        // GET: Employees/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -29,38 +33,39 @@ namespace folder_structure.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product
+            var employee = await _context.Employees
                 .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (product == null)
+            if (employee == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(employee);
         }
 
-        // GET: Products/Create
+        // GET: Employees/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Products/Create
-        [HttpPost("create")]
+        // POST: Employees/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Description")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,Salary")] Employee employee)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
+                _context.Add(employee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            return View(employee);
         }
 
-        // GET: Products/Edit/5
+        // GET: Employees/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -68,20 +73,22 @@ namespace folder_structure.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product.FindAsync(id);
-            if (product == null)
+            var employee = await _context.Employees.FindAsync(id);
+            if (employee == null)
             {
                 return NotFound();
             }
-            return View(product);
+            return View(employee);
         }
 
-        // POST: Products/Edit/5
-        [HttpPost("Edit/id")]
+        // POST: Employees/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Description")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Salary")] Employee employee)
         {
-            if (id != product.Id)
+            if (id != employee.Id)
             {
                 return NotFound();
             }
@@ -90,12 +97,12 @@ namespace folder_structure.Controllers
             {
                 try
                 {
-                    _context.Update(product);
+                    _context.Update(employee);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.Id))
+                    if (!EmployeeExists(employee.Id))
                     {
                         return NotFound();
                     }
@@ -106,10 +113,10 @@ namespace folder_structure.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            return View(employee);
         }
 
-        // GET: Products/Delete/5
+        // GET: Employees/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -117,30 +124,34 @@ namespace folder_structure.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product
+            var employee = await _context.Employees
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
+            if (employee == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(employee);
         }
 
-        // POST: Products/Delete/5
+        // POST: Employees/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Product.FindAsync(id);
-            _context.Product.Remove(product);
+            var employee = await _context.Employees.FindAsync(id);
+            if (employee != null)
+            {
+                _context.Employees.Remove(employee);
+            }
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductExists(int id)
+        private bool EmployeeExists(int id)
         {
-            return _context.Product.Any(e => e.Id == id);
+            return _context.Employees.Any(e => e.Id == id);
         }
     }
 }

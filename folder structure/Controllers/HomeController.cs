@@ -36,23 +36,31 @@ namespace folder_structure.Controllers
         {
             return Json(new { Name = "John", Age = 30 });
         }
-        //public ActionResult GetImage()
-        //{
-        //    // Load image bytes from file system, database, or other source
-        //    string imagePath = Server.MapPath("~/Images/sample.png");
-        //    byte[] imageBytes = System.IO.File.ReadAllBytes(imagePath);
 
-        //    // Return the image with MIME type
-        //    return File(imageBytes, "image/png");
-        //}
+        public IActionResult GetImage()
+            {
+                var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/sample.jpg");
+                var imageBytes = System.IO.File.ReadAllBytes(imagePath);
+                return File(imageBytes, "image/jpeg");
+            }
+        /*
+     "wwwroot/images/sample.jpg": Replace with your actual image path.
 
-        //// Optional: To force download instead of displaying
-        //public ActionResult DownloadImage()
-        //{
-        //    string imagePath = Server.MapPath("~/Images/sample.png");
-        //    byte[] imageBytes = System.IO.File.ReadAllBytes(imagePath);
+    "image/jpeg": MIME type for .jpg. Use "image/png" for .png, etc.
 
-        //    return File(imageBytes, "image/png", "downloaded-image.png");
-        //}
+    "DownloadedImage.jpg": This will be the default name in the download dialog.
+         */
+        public IActionResult DownloadImage()
+        {
+            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/sample.jpg");
+
+            if (!System.IO.File.Exists(imagePath))
+            {
+                return NotFound("Image not found.");
+            }
+
+            var imageBytes = System.IO.File.ReadAllBytes(imagePath);
+            return File(imageBytes, "image/jpeg", "DownloadedImage.jpg");
+        }
     }
 }
